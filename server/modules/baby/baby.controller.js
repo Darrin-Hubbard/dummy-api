@@ -38,7 +38,7 @@ baby.create = async (req, res) => {
     status = httpStatus.OK
     message = 'baby-create-success'
   }
-  res.status(httpStatus.OK).json({ message: 'baby-created' })
+  res.status(status).json({ message })
 }
 
 baby.update = async (req, res) => {
