@@ -38,7 +38,8 @@ baby.create = async (req, res) => {
     status = httpStatus.OK
     message = 'baby-create-success'
   }
-  res.status(status).json({ message })
+  const babies = await pool.query("SELECT * FROM baby")
+  res.status(status).json({ message, babies })
 }
 
 baby.update = async (req, res) => {
@@ -55,7 +56,8 @@ baby.update = async (req, res) => {
     message = 'baby-update-success'
     status = httpStatus.OK
   }
-  res.status(status).json({ message })
+  const babies = await pool.query("SELECT * FROM baby")
+  res.status(status).json({ message, babies })
 }
 
 baby.remove = async (req, res) => {
@@ -67,7 +69,8 @@ baby.remove = async (req, res) => {
     message = 'baby-remove-success'
     status = httpStatus.OK
   }
-  res.status(status).json({ message })
+  const babies = await pool.query("SELECT * FROM baby")
+  res.status(status).json({ message, babies })
 }
 
 export { baby }
