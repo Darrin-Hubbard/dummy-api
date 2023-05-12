@@ -33,7 +33,7 @@ baby.create = async (req, res) => {
   let status = httpStatus.BAD_REQUEST
   let message = 'baby-create-failed'
   const query = await pool.query(`INSERT INTO baby (id, first_name, middle_name, last_name) VALUES (UUID(), '${first_name}','${middle_name}','${last_name}')`)
-  if (query.rowsAffected) {
+  if (query.affectedRows) {
     status = httpStatus.OK
     message = 'baby-create-success'
   }
@@ -51,7 +51,7 @@ baby.update = async (req, res) => {
   let message = 'baby-update-fail'
   let status = httpStatus.BAD_REQUEST
   const query = await pool.query(`UPDATE baby SET (id, first_name, middle_name, last_name) VALUES (UUID(),'${first_name}','${middle_name}','${last_name}') WHERE id = '${id}'`)
-  if (query.rowsAffected) {
+  if (query.affectedRows) {
     message = 'baby-update-success'
     status = httpStatus.OK
   }
