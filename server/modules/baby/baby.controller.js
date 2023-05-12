@@ -14,7 +14,6 @@ baby.one = async (req, res) => {
   let newBaby = {}
 
   if (id) {
-    console.log('id', id)
     const [ row ] = await pool.query(`SELECT * FROM baby WHERE id = '${id}'`)
     if (row?.id) {
       message = 'baby-success'
@@ -50,7 +49,7 @@ baby.update = async (req, res) => {
   const { id } = req.query
   let message = 'baby-update-fail'
   let status = httpStatus.BAD_REQUEST
-  const query = pool.query(`UPDATE baby SET (id, first_name, middle_name, last_name) VALUES (UUID(),'${first_name}','${middle_name}','${last_name}') WHERE id = '${id}'`)
+  const query = await pool.query(`UPDATE baby SET (id, first_name, middle_name, last_name) VALUES (UUID(),'${first_name}','${middle_name}','${last_name}') WHERE id = '${id}'`)
   if (query.rowsAffected) {
     message = 'baby-update-success'
     status = httpStatus.OK
@@ -59,15 +58,16 @@ baby.update = async (req, res) => {
 }
 
 baby.remove = async (req, res) => {
-  const { id } = req.query
+  const { id } = req.body
   let message = 'baby-remove-fail'
   let status = httpStatus.BAD_REQUEST
-  const query = pool.query(`DELETE FROM baby WHERE id = '${id}'`)
-  if (query.rowsAffected) {
+  const query = await pool.query(`DELETE FROM baby WHERE id = '${id}'`)
+  if (query.affectedRows) {
     message = 'baby-remove-success'
     status = httpStatus.OK
   }
-  res.status(status).json({ message })
+  const list = await pool.query("SELECT * FROM baby")
+  res.status(status).json({ message, list })
 }
 
 export { baby }
