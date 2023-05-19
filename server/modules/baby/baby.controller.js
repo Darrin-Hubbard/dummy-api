@@ -50,7 +50,7 @@ baby.update = async (req, res) => {
   const { id } = req.query
   let message = 'baby-update-fail'
   let status = httpStatus.BAD_REQUEST
-  const query = await pool.query(`UPDATE baby SET (id, first_name, middle_name, last_name) VALUES (UUID(),'${first_name}','${middle_name}','${last_name}') WHERE id = '${id}'`)
+  const query = await pool.query(`UPDATE baby SET first_name = '${first_name}', middle_name = '${middle_name}', last_name = '${last_name}' WHERE id = '${id}'`)
   if (query.affectedRows) {
     message = 'baby-update-success'
     status = httpStatus.OK
